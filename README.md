@@ -17,7 +17,7 @@ Get Tomcat running
 Grab this quickstart codes and make it working for you!
 
     cd tomcat
-    git remote add upstream -m master git://github.com/lulinqing/openshift-tomcat-quickstart.git
+    git remote add upstream -m master git://github.com/openshift/openshift-tomcat-quickstart.git
     git pull -s recursive -X theirs upstream master
     git push
 
