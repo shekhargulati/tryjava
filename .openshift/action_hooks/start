@@ -4,11 +4,7 @@
 # $OPENSHIFT_DIY_IP:8080
 set -x
 
-if [[ -z "$OPENSHIFT_INTERNAL_IP" ]]; then export OPENSHIFT_INTERNAL_IP="$OPENSHIFT_DIY_IP"; fi
-if [[ -z "$OPENSHIFT_INTERNAL_PORT" ]]; then export OPENSHIFT_INTERNAL_PORT="$OPENSHIFT_DIY_PORT"; fi
-
 rsync -r --delete --exclude ".*" ${OPENSHIFT_REPO_DIR}/diy/tomcat/webapps/ ${OPENSHIFT_DATA_DIR}/tomcat/webapps/
 cd $OPENSHIFT_DATA_DIR/tomcat
-sed -ig 's/OPENSHIFT_INTERNAL_IP/'$OPENSHIFT_INTERNAL_IP'/g' conf/server.xml
 sed -ig 's/OPENSHIFT_DIY_IP/'$OPENSHIFT_DIY_IP'/g' conf/server.xml
 bin/startup.sh
