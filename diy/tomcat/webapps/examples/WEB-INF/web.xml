@@ -27,7 +27,6 @@
     </description>
     <display-name>Servlet and JSP Examples</display-name>
 
-
     <!-- Define example filters -->
     <filter>
         <filter-name>Timing filter</filter-name>

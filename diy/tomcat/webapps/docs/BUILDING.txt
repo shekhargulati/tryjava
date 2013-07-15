@@ -15,14 +15,14 @@
   limitations under the License.
 ================================================================================
 
-$Id: BUILDING.txt 1356016 2012-07-01 20:45:13Z kkolinko $
+$Id: BUILDING.txt 1457383 2013-03-17 06:22:36Z kkolinko $
 
             ====================================================
             Building The Apache Tomcat 7.0 Servlet/JSP Container
             ====================================================
 
 This subproject contains the source code for Tomcat 7.0, a container that
-implements the Servlet 3.0 and JSP 2.1 specifications from the Java
+implements the Servlet 3.0 and JSP 2.2 specifications from the Java
 Community Process <http://www.jcp.org/>.
 
 Note: If you just need to run Apache Tomcat, it is not necessary to build
@@ -37,10 +37,32 @@ source distribution, do the following:
 
  1. If the JDK is already installed, skip to (2).
 
- 2. Download a Java Development Kit (JDK) release (version 1.6.x or later)
-    from:
+ 2. Download a version 6 of Java Development Kit (JDK) release (use the
+    latest update available for your chosen version) from
 
         http://www.oracle.com/technetwork/java/javase/downloads/index.html
+        or from another JDK vendor.
+
+    Note regarding later versions of Java:
+
+      As documented elsewhere, one of components in Apache Tomcat includes
+      a private copy of the Apache Commons DBCP library. The source code
+      for this library is downloaded, processed by the build script
+      (renaming the packages) and compiled.
+
+      Due to changes in JDBC interfaces implemented by the library between
+      versions of Java SE specification, the library has to target specific
+      version of Java and can be compiled only with the JDK version
+      implementing this version of specification.
+
+      See Apache Commons DBCP project web site for more details on
+      available versions of the library and its requirements,
+
+        http://commons.apache.org/dbcp/
+
+      If you really want to use a later version of JDK to build Tomcat,
+      several workarounds are possible. One of them is to skip building
+      the component (tomcat-dbcp.jar).
 
  3. Install the JDK according to the instructions included with the release.
 
@@ -170,12 +192,28 @@ For a quick rebuild of only modified code you can use:
 
 (5) Special builds
 
-Some Tomcat components, that are included in the full release, but are not
-built during the default "deploy" build, can also be built separately.
+There are several targets in Tomcat build files that are useful to be
+called separately. They build components that you may want to build
+quickly, or ones that are included in the full release and are not built
+during the default "deploy" build.
 
-(5.1) Building API documentation (Javadoc)
+(5.1) Building documentation
 
-The API documentation can be easily built:
+The documentation web application is built during the default "deploy"
+build.
+
+It can be built quickly by using the following commands:
+
+    cd ${tomcat.source}
+    ant build-docs
+
+The output of this command will be found in the following directory:
+
+    output/build/webapps/docs
+
+
+The API documentation (Javadoc) is built during a "release" build. It is
+easy to build it separately by using the following commands:
 
     cd ${tomcat.source}
     ant javadoc
@@ -187,12 +225,23 @@ The output of this command will be found in the following directories:
     output/dist/webapps/docs/jspapi
     output/dist/webapps/docs/servletapi
 
+
 (5.2) Building the extras (commons-logging, webservices etc.)
+
+These components are documented on the "Additional Components"
+(extras.html) page of documentation. They are built during a "release"
+build.
+
+You can build them by using the following commands:
 
     cd ${tomcat.source}
     ant extras
 
 (5.3) Building the embedded packages
+
+These are built during a "release" build.
+
+You can build them by using the following commands:
 
     cd ${tomcat.source}
     ant embed
