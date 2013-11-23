@@ -2,4 +2,11 @@
 # The logic to start up your application should be put in this
 # script. The application will work only if it binds to
 # $OPENSHIFT_DIY_IP:8080
-nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_DIY_IP $OPENSHIFT_REPO_DIR/diy > $OPENSHIFT_DIY_DIR/logs/server.log 2>&1 &
+set -x
+rsync -r --delete --exclude ".*" ${OPENSHIFT_REPO_DIR}/diy/tomcat/conf/ ${OPENSHIFT_DATA_DIR}/tomcat/conf/
+rsync -r --delete --exclude ".*" ${OPENSHIFT_REPO_DIR}/diy/tomcat/lib/ ${OPENSHIFT_DATA_DIR}/tomcat/lib/
+rsync -r --delete --exclude ".*" ${OPENSHIFT_REPO_DIR}/diy/tomcat/webapps/ ${OPENSHIFT_DATA_DIR}/tomcat/webapps/
+cd $OPENSHIFT_DATA_DIR/tomcat
+sed -ig 's/OPENSHIFT_DIY_IP/'$OPENSHIFT_DIY_IP'/g' conf/server.xml
+sed -ig 's/OPENSHIFT_APP_DNS/'$OPENSHIFT_APP_DNS'/' conf/server.xml
+bin/startup.sh
