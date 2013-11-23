@@ -6,6 +6,7 @@
 set -x
 if [ ! -d $OPENSHIFT_DATA_DIR/jdk1.8.0 ]
 	then 
+		cd $OPENSHIFT_DATA_DIR
 		wget http://www.java.net/download/jdk8/archive/b116/binaries/jdk-8-ea-bin-b116-linux-x64-14_nov_2013.tar.gz
 		tar xvf *.tar.gz 
 		rm -f *.tar.gz
