@@ -3,3 +3,4 @@
 #kill `ps -ef | grep testrubyserver.rb | grep -v grep | awk '{ print $2 }'` > /dev/null 2>&1
 #exit 0
 $OPENSHIFT_DATA_DIR/tomcat/bin/shutdown.sh
+rm -rf $OPENSHIFT_DATA_DIR/tomcat/webapps/ROOT
